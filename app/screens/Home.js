@@ -60,7 +60,7 @@ const Home = ({ navigation }) => {
                     </View>
                     <View style={styles.productsContainer}>
                         {products.map(data => {
-                            return <ProductCard data={data} key={data.id} />
+                            return <ProductCard navigation={navigation} data={data} key={data.id} />
                         })}
                     </View>
                 </View>
@@ -74,7 +74,7 @@ const Home = ({ navigation }) => {
                     </View>
                     <View style={styles.productsContainer}>
                         {accessory.map(data => {
-                            return <ProductCard data={data} key={data.id} />
+                            return <ProductCard navigation={navigation} data={data} key={data.id} />
                         })}
                     </View>
                 </View>

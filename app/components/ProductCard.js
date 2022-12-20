@@ -3,9 +3,9 @@ import React from 'react'
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { COLOURS } from './Database';
 
-const ProductCard = ({ data }) => {
+const ProductCard = ({ data, navigation }) => {
     return (
-        <TouchableOpacity style={styles.container}>
+        <TouchableOpacity onPress={() => navigation.navigate("ProductInfo", { productId: data.id })} style={styles.container}>
             <View style={styles.productImageContainer}>
                 {data.isOff ? (
                     <View style={styles.offPercentageContainer}>
