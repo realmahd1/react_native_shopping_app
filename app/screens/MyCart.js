@@ -1,7 +1,10 @@
-import { View, Text } from 'react-native'
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Image } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Items } from '../components/Database';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { COLOURS } from './../components/Database';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import CartProductCard from './../components/CartProductCard';
 
 const MyCart = ({ navigation }) => {
   const [product, setProduct] = useState([]);
@@ -28,7 +31,7 @@ const MyCart = ({ navigation }) => {
       });
       setProduct(productData);
       getTotal(productData);
-    } else{
+    } else {
 
       setProduct(false);
       getTotal(false);
@@ -45,10 +48,59 @@ const MyCart = ({ navigation }) => {
   }
 
   return (
-    <View>
-      <Text>{total}</Text>
+    <View style={styles.container}>
+      <ScrollView>
+        <View style={styles.headerContainer}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <MaterialCommunityIcons name="chevron-left" style={styles.leftIcom} />
+          </TouchableOpacity>
+          <Text style={styles.headerTitle}>Order Details</Text>
+        </View>
+        <Text style={styles.screenTitle}>
+          MyCart
+        </Text>
+        <View style={{ paddingHorizontal: 16 }}>
+          {product ? product.map((data) => <CartProductCard data={data} />) : null}
+        </View>
+      </ScrollView>
     </View>
   )
 }
 
+const styles = StyleSheet.create({
+  container: {
+    width: '100%',
+    height: "100%",
+    backgroundColor: COLOURS.white
+  },
+  headerContainer: {
+    width: '100%',
+    flexDirection: 'row',
+    paddingTop: 16,
+    paddingHorizontal: 16,
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  leftIcom: {
+    fontSize: 18,
+    color: COLOURS.backgroundDark,
+    padding: 12,
+    backgroundColor: COLOURS.backgroundLight,
+    borderRadius: 12
+  },
+  headerTitle: {
+    fontSize: 14,
+    color: COLOURS.black,
+    fontWeight: '400'
+  },
+  screenTitle: {
+    fontSize: 20,
+    color: COLOURS.black,
+    fontWeight: '500',
+    letterSpacing: 1,
+    paddingTop: 20,
+    paddingLeft: 16,
+    marginBottom: 10
+  }
+})
 export default MyCart

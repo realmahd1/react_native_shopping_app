@@ -69,7 +69,7 @@ const ProductInfo = ({ route, navigation }) => {
             <ScrollView>
                 <View style={styles.scrollViewContainer}>
                     <View style={styles.headerContainer}>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={() => navigation.goBack()}>
                             <Entypo name="chevron-left" style={styles.leftIcon} />
                         </TouchableOpacity>
                     </View>
