@@ -47,6 +47,25 @@ const MyCart = ({ navigation }) => {
     setTotal(total)
   }
 
+  // remove data from cart
+
+  const removeItemFromCart = async (id) => {
+    let itemArray = await AsyncStorage.getItem('cartItems');
+    itemArray = JSON.parse(itemArray);
+
+    if (itemArray) {
+      let array = itemArray;
+      for (let index = 0; index < array.length; index++) {
+        if (array[index] == id) {
+          array.splice(index, 1)
+        }
+        await AsyncStorage.setItem('cartItems', JSON.stringify(array));
+        getDataFromDB();
+      }
+    }
+  }
+
+
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -60,7 +79,7 @@ const MyCart = ({ navigation }) => {
           MyCart
         </Text>
         <View style={{ paddingHorizontal: 16 }}>
-          {product ? product.map((data) => <CartProductCard data={data} />) : null}
+          {product ? product.map((data) => <CartProductCard key={data.id} data={data} navigation={navigation} removeItemFromCart={removeItemFromCart} />) : null}
         </View>
       </ScrollView>
     </View>

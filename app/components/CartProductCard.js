@@ -3,9 +3,9 @@ import { TouchableOpacity, View, Image, Text, StyleSheet } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { COLOURS } from './Database';
 
-export default function CartProductCard({ data }) {
+export default function CartProductCard({ data, navigation, removeItemFromCart }) {
     return (
-        <TouchableOpacity key={data.id} style={styles.container}>
+        <TouchableOpacity onPress={() => navigation.navigate("ProductInfo", { productId: data.id })} style={styles.container}>
             <View style={styles.imageContainer}>
                 <Image source={data.productImage} style={styles.productImage} />
             </View>
@@ -27,7 +27,7 @@ export default function CartProductCard({ data }) {
                             <MaterialCommunityIcons name='plus' style={styles.icon} />
                         </View>
                     </View>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => removeItemFromCart(data.id)}>
                         <MaterialCommunityIcons name='delete-outline' style={styles.deleteIcon} />
                     </TouchableOpacity>
                 </View>
