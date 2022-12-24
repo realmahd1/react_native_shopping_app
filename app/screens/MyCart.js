@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet, ToastAndroid } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Items } from '../components/Database';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -65,7 +65,19 @@ const MyCart = ({ navigation }) => {
     }
   }
 
+  //checkout
 
+  const checkOut = async () => {
+    try {
+      await AsyncStorage.removeItem('cartItems');
+    } catch (error) {
+      return error;
+    }
+
+    ToastAndroid.show('Items will be Deliverd SOON!', ToastAndroid.SHORT);
+
+    navigation.navigate('Home');
+  };
   return (
     <View style={styles.container}>
       <ScrollView>
