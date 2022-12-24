@@ -1,10 +1,11 @@
-import { View, Text, Animated, StyleSheet, StatusBar, TouchableOpacity, ScrollView, FlatList, Image, Dimensions } from 'react-native'
+import { View, Text, Animated, StyleSheet, StatusBar, TouchableOpacity, ScrollView, FlatList, Dimensions, ToastAndroid } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Items } from '../components/Database';
 import { COLOURS } from './../components/Database';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import RenderProduct from '../components/RenderProduct';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ProductInfo = ({ route, navigation }) => {
     const { productId } = route.params;
@@ -21,6 +22,38 @@ const ProductInfo = ({ route, navigation }) => {
         })
         return unsubscribe
     }, [navigation])
+
+    // add to cart
+
+    const addToCart = async (id) => {
+        let itemArray = await AsyncStorage.getItem("cartItems");
+        itemArray = JSON.parse(itemArray);
+
+        if (itemArray) {
+            let array = itemArray;
+            array.push(id)
+
+            try {
+                await AsyncStorage.setItem('cartItems', JSON.stringify(array));
+                ToastAndroid.show('Item Added Successfully to cart', ToastAndroid.SHORT);
+                navigation.navigate('Home')
+            } catch (error) {
+                return error
+            }
+        }
+        else {
+            let array = [];
+            array.push(id);
+            try {
+                await AsyncStorage.setItem('cartItems', JSON.stringify(array))
+                ToastAndroid.show('Item Added Successfully to cart', ToastAndroid.SHORT);
+                navigation.navigate('Home');
+            } catch (error) {
+                return error
+            }
+        }
+    }
+
     const getDataFromDB = () => {
         for (let index = 0; index < Items.length; index++) {
             if (Items[index].id == productId) {
@@ -87,7 +120,7 @@ const ProductInfo = ({ route, navigation }) => {
                 </View>
             </ScrollView>
             <View style={styles.ButtonParent}>
-                <TouchableOpacity style={styles.buttonTextParent}>
+                <TouchableOpacity onPress={() => product.isAvailable ? addToCart(product.id) : null} style={styles.buttonTextParent}>
                     <Text style={styles.buttonText}>{product.isAvailable ? "Add to cart" : "Not Available"}</Text>
                 </TouchableOpacity>
             </View>
