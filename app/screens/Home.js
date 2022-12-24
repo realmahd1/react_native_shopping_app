@@ -41,7 +41,7 @@ const Home = ({ navigation }) => {
                     <TouchableOpacity>
                         <Entypo name="shopping-bag" style={styles.bagIcon} />
                     </TouchableOpacity>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={()=>navigation.navigate('MyCart')}>
                         <MaterialCommunityIcons name="cart" style={styles.cartIcon} />
                     </TouchableOpacity>
                 </View>
